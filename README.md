@@ -81,7 +81,7 @@ Temperature-Dependent-MOSFET-Analysis/
 └── future_work.md
 ```
 
-## Key Analyses
+## Key Analysis
 
 ### Temperature Sweep Analysis
 
