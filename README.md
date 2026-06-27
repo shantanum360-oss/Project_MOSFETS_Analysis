@@ -55,6 +55,7 @@ Used Python for:
 Temperature-Dependent-MOSFET-Analysis/
 │
 ├── README.md
+├── Assignments
 ├── LTSpice_Simulations/
 │   ├── Cascode_Amplifier.asc
 │   ├── Simulation_Results/
