@@ -55,11 +55,9 @@ Used Python for:
 Temperature-Dependent-MOSFET-Analysis/
 │
 ├── README.md
-│
 ├── LTSpice_Simulations/
-│   ├── Cascode_Amplifier.asc
-│   ├── Simulation_Results/
-│   └── Netlists/
+│   ├── simulation_notes.md
+│   └── planned_simulations.md
 │
 ├── Python_Analysis/
 │   ├── data_processing.py
@@ -67,16 +65,10 @@ Temperature-Dependent-MOSFET-Analysis/
 │   └── noise_analysis.py
 │
 ├── Data/
-│   ├── simulation_outputs.csv
-│   └── processed_data.csv
+│   └── sample_dataset.csv
 │
 ├── Figures/
-│   ├── gain_vs_temperature.png
-│   ├── bandwidth_vs_temperature.png
-│   └── material_comparison.png
-│
-├── Reports/
-│   └── project_report.pdf
+│   └── README.md
 │
 └── future_work.md
 ```
