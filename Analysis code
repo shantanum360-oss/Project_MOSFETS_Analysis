@@ -1,0 +1,121 @@
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# -----------------------------------------------------
+# Configuration
+# -----------------------------------------------------
+
+temperatures = [25,50,75,100]
+
+folder = "simulations"
+
+gain_summary = []
+gm_summary = []
+rout_summary = []
+
+# -----------------------------------------------------
+# Read LTSpice outputs
+# -----------------------------------------------------
+
+for T in temperatures:
+
+    file = os.path.join(folder,f"{T}C.csv")
+
+    df = pd.read_csv(file)
+
+    frequency = df["Frequency"]
+    gain = df["Gain"]
+    gm = df["gm"]
+    rout = df["Rout"]
+
+    gain_summary.append(gain.max())
+    gm_summary.append(gm.mean())
+    rout_summary.append(rout.mean())
+
+    plt.figure(figsize=(8,5))
+    plt.semilogx(frequency,gain)
+
+    plt.title(f"Gain vs Frequency ({T}°C)")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Voltage Gain (dB)")
+    plt.grid(True)
+    plt.show()
+
+# -----------------------------------------------------
+# Comparative Analysis
+# -----------------------------------------------------
+
+plt.figure(figsize=(8,5))
+plt.plot(temperatures,gain_summary,marker='o')
+plt.xlabel("Temperature (°C)")
+plt.ylabel("Maximum Gain (dB)")
+plt.title("Gain Variation with Temperature")
+plt.grid(True)
+plt.show()
+
+plt.figure(figsize=(8,5))
+plt.plot(temperatures,gm_summary,marker='o')
+plt.xlabel("Temperature (°C)")
+plt.ylabel("Transconductance (S)")
+plt.title("Transconductance vs Temperature")
+plt.grid(True)
+plt.show()
+
+plt.figure(figsize=(8,5))
+plt.plot(temperatures,rout_summary,marker='o')
+plt.xlabel("Temperature (°C)")
+plt.ylabel("Output Resistance (Ω)")
+plt.title("Output Resistance vs Temperature")
+plt.grid(True)
+plt.show()
+
+# -----------------------------------------------------
+# Thermal Noise Model
+# -----------------------------------------------------
+
+k = 1.38e-23
+
+bandwidth = 1e6
+
+noise = []
+
+for T in temperatures:
+
+    temperature_kelvin = T + 273.15
+
+    R = 1000
+
+    vn = np.sqrt(4*k*temperature_kelvin*R*bandwidth)
+
+    noise.append(vn)
+
+plt.figure(figsize=(8,5))
+plt.plot(temperatures,noise,marker='o')
+
+plt.xlabel("Temperature (°C)")
+plt.ylabel("Thermal Noise (V rms)")
+plt.title("Thermal Noise vs Temperature")
+plt.grid(True)
+plt.show()
+
+# -----------------------------------------------------
+# Performance Table
+# -----------------------------------------------------
+
+results = pd.DataFrame({
+
+    "Temperature (°C)":temperatures,
+    "Gain (dB)":gain_summary,
+    "gm (S)":gm_summary,
+    "Output Resistance":rout_summary,
+    "Thermal Noise":noise
+
+})
+
+print(results)
+
+results.to_csv("temperature_analysis_results.csv",index=False)
+
+print("\nAnalysis Complete.")
